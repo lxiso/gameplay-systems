@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://ts80eby12rey"]
+
+[ext_resource type="Script" uid="uid://djn2boi4lav4g" path="res://entities/player controllers/fps controller/PlayerController.cs" id="1_4paco"]
+[ext_resource type="Script" uid="uid://pyydom5pxdqj" path="res://entities/player controllers/fps controller/DebugHud.cs" id="2_mo5jy"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nqacl"]
+radius = 0.35
+height = 1.7
+
+[node name="PlayerController" type="CharacterBody3D" unique_id=385158448]
+script = ExtResource("1_4paco")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=111556550]
+shape = SubResource("CapsuleShape3D_nqacl")
+
+[node name="Head" type="Marker3D" parent="." unique_id=839556359]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head" unique_id=1445620312]
+
+[node name="DebugHUD" type="Container" parent="." unique_id=1441196012]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_mo5jy")
+
+[node name="BoxContainer" type="BoxContainer" parent="DebugHUD" unique_id=2037102882]
+layout_mode = 2
+vertical = true
+
+[node name="CurrentState" type="Label" parent="DebugHUD/BoxContainer" unique_id=964367409]
+layout_mode = 2
+text = "CurrentState"
+
+[node name="Velocity" type="Label" parent="DebugHUD/BoxContainer" unique_id=1180331022]
+layout_mode = 2
+text = "Velocity"
