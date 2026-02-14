@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://ts80eby12rey"]
+
+[ext_resource type="Script" uid="uid://djn2boi4lav4g" path="res://Entities/PlayerController/FPSController/PlayerController.cs" id="1_4paco"]
+[ext_resource type="PackedScene" uid="uid://ki8kditkdxl3" path="res://Entities/PlayerController/FPSController/PlayerComponents/ObjectPicker.tscn" id="2_cjuyx"]
+[ext_resource type="PackedScene" uid="uid://brnopw05khvy1" path="res://Entities/PlayerController/FPSController/PlayerComponents/DebugHud.tscn" id="3_8ykdt"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_mo5jy"]
+radius = 0.35
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nqacl"]
+radius = 0.35
+height = 1.7
+
+[node name="PlayerController" type="CharacterBody3D" unique_id=385158448]
+collision_layer = 2
+script = ExtResource("1_4paco")
+
+[node name="ObjectPicker" parent="." unique_id=1298848287 instance=ExtResource("2_cjuyx")]
+
+[node name="CrouchCheck" type="ShapeCast3D" parent="." unique_id=614555317]
+shape = SubResource("SphereShape3D_mo5jy")
+target_position = Vector3(0, 0.85, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=111556550]
+shape = SubResource("CapsuleShape3D_nqacl")
+
+[node name="Head" type="Marker3D" parent="." unique_id=839556359]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head" unique_id=1445620312]
+
+[node name="DebugHUD" parent="." unique_id=762388576 instance=ExtResource("3_8ykdt")]

@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://brnopw05khvy1"]
+
+[ext_resource type="Script" uid="uid://pyydom5pxdqj" path="res://Entities/PlayerController/FPSController/PlayerComponents/DebugHud.cs" id="1_4owj8"]
+
+[node name="DebugHUD" type="Container" unique_id=762388576]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_4owj8")
+
+[node name="BoxContainer" type="BoxContainer" parent="." unique_id=428446490]
+layout_mode = 2
+vertical = true
+
+[node name="CurrentState" type="Label" parent="BoxContainer" unique_id=1027532685]
+layout_mode = 2
+text = "CurrentState"
+
+[node name="Velocity" type="Label" parent="BoxContainer" unique_id=257033518]
+layout_mode = 2
+text = "Velocity"

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ki8kditkdxl3"]
+
+[ext_resource type="Script" uid="uid://d3fvu1ypobn1l" path="res://Entities/PlayerController/FPSController/PlayerComponents/ObjectPicker.cs" id="1_piu86"]
+
+[node name="ObjectPicker" type="Node3D" unique_id=1298848287]
+script = ExtResource("1_piu86")

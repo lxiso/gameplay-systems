@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://vh6k4t0xy0k4"]
 
-[ext_resource type="Texture2D" uid="uid://dcci21m50wcoc" path="res://assets/textures/PrototypeTextures by Kenney/Light/texture_08.png" id="1_aubu2"]
-[ext_resource type="PackedScene" uid="uid://ts80eby12rey" path="res://entities/player controllers/fps controller/PlayerController.tscn" id="2_06k03"]
+[ext_resource type="Script" uid="uid://ck02g1u7g63e0" path="res://Scenes/Levels/Root.cs" id="1_ihp5c"]
+[ext_resource type="Texture2D" uid="uid://dcci21m50wcoc" path="res://Assets/Textures/PrototypeTextures by Kenney/Light/texture_08.png" id="2_otbxg"]
+[ext_resource type="PackedScene" uid="uid://ts80eby12rey" path="res://Entities/PlayerController/FPSController/PlayerController.tscn" id="3_8gpks"]
+[ext_resource type="PhysicsMaterial" uid="uid://6u5fel1qss8b" path="res://Entities/PhysicsMaterials/StandardBox.tres" id="4_8dxhx"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_06k03"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -17,10 +19,23 @@ tonemap_mode = 2
 glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_06k03"]
-albedo_texture = ExtResource("1_aubu2")
+albedo_color = Color(0.19434929, 0.19434926, 0.19434926, 1)
+albedo_texture = ExtResource("2_otbxg")
 uv1_triplanar = true
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_h3mcq"]
+size = Vector3(0.8, 0.8, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h3mcq"]
+albedo_texture = ExtResource("2_otbxg")
+uv1_scale = Vector3(3.03, 3.03, 3.03)
+
+[sub_resource type="BoxMesh" id="BoxMesh_edpnl"]
+material = SubResource("StandardMaterial3D_h3mcq")
+size = Vector3(0.8, 0.8, 0.8)
+
 [node name="Root" type="Node3D" unique_id=1934402417]
+script = ExtResource("1_ihp5c")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=893663653]
 environment = SubResource("Environment_edpnl")
@@ -31,18 +46,32 @@ shadow_enabled = true
 
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="." unique_id=2128648641]
 material_override = SubResource("StandardMaterial3D_06k03")
+use_collision = true
+collision_mask = 3
 
 [node name="Ground" type="CSGBox3D" parent="CSGCombiner3D" unique_id=2005041706]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 size = Vector3(200, 1, 200)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1360546803]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.751709, -2)
-size = Vector3(10, 1.5, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.92962646, -2)
+size = Vector3(10, 1.8358154, 1)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="CSGCombiner3D" unique_id=540845166]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.777739, 0.9439087, -2)
+size = Vector3(2.6044312, 1.8643799, 1)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1576130384]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.690693, 0.9460449, -2)
+size = Vector3(1.4970932, 1.8686523, 1)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1726352858]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.273775, 0.9980469, -2)
+size = Vector3(2.3687248, 1.9726563, 1)
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="CSGCombiner3D" unique_id=869731130]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 2.001709, -2)
-size = Vector3(10, 1, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.979298, 2.344696, -2)
+size = Vector3(10.995705, 1.1199341, 1)
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1055530856]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.0017089844, 8.44147)
@@ -67,5 +96,31 @@ size = Vector3(1, 2, 1)
 transform = Transform3D(0.9549423, -0.29679158, 0, 0.29679158, 0.9549423, 0, 0, 0, 1, 8.572066, -0.91944003, 1.0953884)
 size = Vector3(10, 5, 1)
 
-[node name="PlayerController" parent="." unique_id=385158448 instance=ExtResource("2_06k03")]
+[node name="CSGBox3D12" type="CSGBox3D" parent="CSGCombiner3D" unique_id=881875779]
+transform = Transform3D(0.85872746, -0.5124326, 0, 0.5124326, 0.85872746, 0, 0, 0, 1, 8.572066, -0.91944003, 3.6203685)
+size = Vector3(10, 5, 1)
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1473047591]
+transform = Transform3D(0.6901123, -0.72370225, 0, 0.72370225, 0.6901123, 0, 0, 0, 1, 8.572066, -0.91944003, 6.061188)
+size = Vector3(10, 5, 1)
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1617998401]
+transform = Transform3D(0.46507382, -0.8852719, 0, 0.8852719, 0.46507382, 0, 0, 0, 1, 8.572066, -0.91944003, 8.264555)
+size = Vector3(10, 5, 1)
+
+[node name="PlayerController" parent="." unique_id=385158448 instance=ExtResource("3_8gpks")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, 8)
+
+[node name="Box" type="RigidBody3D" parent="." unique_id=806142585 groups=["Pickable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76401377, 0)
+collision_mask = 3
+mass = 10.0
+physics_material_override = ExtResource("4_8dxhx")
+angular_damp_mode = 1
+angular_damp = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Box" unique_id=1677428912]
+shape = SubResource("BoxShape3D_h3mcq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Box" unique_id=2075591786]
+mesh = SubResource("BoxMesh_edpnl")
