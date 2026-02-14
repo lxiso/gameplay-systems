@@ -7,7 +7,7 @@ public partial class ObjectPicker : Node3D
 	public Camera3D camera;
 	public ShapeCast3D shapeCast;
 
-	[Export] public float pickForce = 5f;
+	[Export] public float pickForce = 30f;
 	[Export] public float maxDistance = 5f;
 
 	private RigidBody3D _currentObject;
@@ -52,12 +52,14 @@ public partial class ObjectPicker : Node3D
 
 			for (int i = 0; i < collisionCount; i++)
 			{
-				RigidBody3D collider = (RigidBody3D)shapeCast.GetCollider(i);
-				if (collider != null || collider.IsInGroup("Pickable") || collider is RigidBody3D)
+				if (shapeCast.GetCollider(i) is RigidBody3D collider)
 				{
-					collider.SetCollisionLayerValue(1, false);
-					collider.SetCollisionLayerValue(2, true);
-					_currentObject = collider;
+					if (collider != null || collider.IsInGroup("Pickable") || collider is RigidBody3D)
+					{
+						collider.SetCollisionLayerValue(1, false);
+						collider.SetCollisionLayerValue(2, true);
+						_currentObject = collider;
+					}
 				}
 			}
 		}
@@ -76,8 +78,10 @@ public partial class ObjectPicker : Node3D
 		if (_currentObject != null)
 		{
 			Vector3 targetPosition = camera.GlobalPosition + (camera.GlobalBasis * new Vector3(0, 0, -2f));
+			Transform3D targetTransform = camera.GlobalTransform.TranslatedLocal(new Vector3(0, 0, -2f));
 			Vector3 objectPos = _currentObject.GlobalPosition;
-			_currentObject.LinearVelocity = (targetPosition - objectPos) * pickForce * (objectPos.DistanceTo(targetPosition) * 8f);
+			_currentObject.GlobalRotation = camera.GlobalRotation;
+			_currentObject.LinearVelocity = (targetPosition - objectPos) * pickForce;
 		}
 	}
 
