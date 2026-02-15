@@ -10,18 +10,22 @@ public partial class PlayerController : CharacterBody3D
 
     public IPlayerState currentState;
     public float gravity = (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
-    [Export] public float inertia = .25f;
-    [Export] public float height = 1.7f;
+    public const float defaultInertia = .25f;
+    [Export] public float inertia = defaultInertia;
+    public const float defaultHeight = 1.7f;
+    [Export] public float height = defaultHeight;
 
     private Vector3 _movement;
     public Vector3 targetMovement;
     [Export] public float walkSpeed = 10f;
     [Export] public float crouchSpeed = 6f;
     [Export] public float runSpeed = 20f;
+    [Export] public float flySpeed = 30f;
     [Export] public float jumpForce = 8f;
 
     private Vector3 _headbob;
-    [Export] public Vector2 cameraInertia = new Vector2(.5f, 2.5f);
+    public static readonly Vector2 defaultCameraInertia = new Vector2(.5f, 2.5f);
+    [Export] public Vector2 cameraInertia = defaultCameraInertia;
 
     [Export] float mouseSens = .005f;
 
@@ -57,11 +61,16 @@ public partial class PlayerController : CharacterBody3D
         }
     }
 
-    private Vector3 ApplyInertia(Vector3 target, float weight)
+    public bool yInertia = false;
+    private Vector3 ApplyInertia(Vector3 target, float weight, bool inertiaY = false)
     {
-        _movement.X = Mathf.Lerp(_movement.X, target.X, weight);
-        _movement.Y = target.Y;
-        _movement.Z = Mathf.Lerp(_movement.Z, target.Z, weight);
+        if (yInertia) _movement = _movement.Lerp(target, weight);
+        else
+        {
+            _movement.X = Mathf.Lerp(_movement.X, target.X, weight);
+            _movement.Y = target.Y;
+            _movement.Z = Mathf.Lerp(_movement.Z, target.Z, weight);
+        }
         return _movement;
     }
 
@@ -98,7 +107,7 @@ public partial class PlayerController : CharacterBody3D
     {
         base._PhysicsProcess(delta);
         currentState?.Update(this, delta);
-        Velocity = ApplyInertia(targetMovement, inertia);
+        Velocity = ApplyInertia(targetMovement, inertia, yInertia);
         MoveAndSlide();
     }
 

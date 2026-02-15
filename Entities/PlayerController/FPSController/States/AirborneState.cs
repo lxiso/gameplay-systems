@@ -13,6 +13,11 @@ public partial class AirborneState : IPlayerState
         player.targetMovement.X = direction.X * speed;
         player.targetMovement.Z = direction.Y * speed;
         player.targetMovement = player.targetMovement.Rotated(Vector3.Up, player.Rotation.Y);
+
+        if (@event.IsActionPressed("move_jump", false))
+        {
+            player.ChangeState(new FlyingState());
+        }
     }
     public void Update(PlayerController player, double delta)
     {

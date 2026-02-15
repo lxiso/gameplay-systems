@@ -7,7 +7,8 @@ public partial class ObjectPicker : Node3D
 	public Camera3D camera;
 	public ShapeCast3D shapeCast;
 
-	[Export] public float pickForce = 30f;
+	[Export] public float pickDistance = 10f;
+	[Export] public float pickForce = 10f;
 	[Export] public float maxDistance = 5f;
 
 	private RigidBody3D _currentObject;
@@ -22,7 +23,7 @@ public partial class ObjectPicker : Node3D
 			camera = player.camera;
 			shapeCast = new ShapeCast3D();
 			camera.AddChild(shapeCast);
-			shapeCast.TargetPosition = new Vector3(0f, 0f, -2f);
+			shapeCast.TargetPosition = new Vector3(0f, 0f, -pickDistance);
 			shapeCast.Shape = new SphereShape3D{Radius = .1f};
 			shapeCast.Position = Vector3.Zero;
 
@@ -65,6 +66,11 @@ public partial class ObjectPicker : Node3D
 		}
 	}
 
+	private void ThrowObject()
+	{
+		
+	}
+
 	private void DropObject()
 	{
 		_currentObject.LinearVelocity = Vector3.Zero;
@@ -73,12 +79,11 @@ public partial class ObjectPicker : Node3D
 		_currentObject = null;
 	}
 
-	private void ApplyForces(double delta)
+	private void ApplyForces()
 	{
 		if (_currentObject != null)
 		{
-			Vector3 targetPosition = camera.GlobalPosition + (camera.GlobalBasis * new Vector3(0, 0, -2f));
-			Transform3D targetTransform = camera.GlobalTransform.TranslatedLocal(new Vector3(0, 0, -2f));
+			Vector3 targetPosition = camera.GlobalPosition + (camera.GlobalBasis * new Vector3(1f, 1f, -1f));
 			Vector3 objectPos = _currentObject.GlobalPosition;
 			_currentObject.GlobalRotation = camera.GlobalRotation;
 			_currentObject.LinearVelocity = (targetPosition - objectPos) * pickForce;
@@ -88,7 +93,7 @@ public partial class ObjectPicker : Node3D
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
-		ApplyForces(delta);
+		ApplyForces();
     }
 
 }
