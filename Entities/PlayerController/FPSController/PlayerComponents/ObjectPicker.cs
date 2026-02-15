@@ -5,11 +5,14 @@ public partial class ObjectPicker : Node3D
 {
 	public PlayerController player;
 	public Camera3D camera;
-	public ShapeCast3D shapeCast;
+	public RayCast3D ray;
+	public SpringArm3D spring;
+	public Marker3D aim;
 
 	[Export] public float pickDistance = 10f;
 	[Export] public float pickForce = 10f;
-	[Export] public float maxDistance = 5f;
+	[Export] public float throwForce = 300f;
+	[Export] public float aimMaxDistance = 100f;
 
 	private RigidBody3D _currentObject;
 
@@ -21,15 +24,19 @@ public partial class ObjectPicker : Node3D
 			await ToSignal(player, Node.SignalName.Ready);
 
 			camera = player.camera;
-			shapeCast = new ShapeCast3D();
-			camera.AddChild(shapeCast);
-			shapeCast.TargetPosition = new Vector3(0f, 0f, -pickDistance);
-			shapeCast.Shape = new SphereShape3D{Radius = .1f};
-			shapeCast.Position = Vector3.Zero;
 
-			var debugMesh = new MeshInstance3D();
-			debugMesh.Mesh = new BoxMesh{Size = new Vector3(.1f, .1f, .1f)};
-			shapeCast.AddChild(debugMesh);
+			ray = new RayCast3D{TargetPosition = new Vector3(0f, 0f, -pickDistance)};
+
+			spring = new SpringArm3D{Shape = new SphereShape3D{Radius = .5f},
+			SpringLength = aimMaxDistance,
+			RotationDegrees = new Vector3(0f, 180f, 0f),
+			Position = Vector3.Zero};
+
+			aim = new Marker3D();
+
+			camera.AddChild(ray);
+			camera.AddChild(spring);
+			spring.AddChild(aim);
 		}
 	}
 
@@ -42,33 +49,31 @@ public partial class ObjectPicker : Node3D
 			if (_currentObject == null) PickObject();
 			else DropObject();
 		}
+		if (@event.IsActionPressed("action_left"))
+		{
+			if (_currentObject != null) ThrowObject();
+		}
     }
 
 	private void PickObject()
 	{
-		shapeCast.ForceShapecastUpdate();
-		if (shapeCast.IsColliding())
+		ray.ForceRaycastUpdate();
+		if (ray.IsColliding() && ray.GetCollider() is RigidBody3D && (ray.GetCollider() as RigidBody3D).IsInGroup("Pickable"))
 		{
-			int collisionCount = shapeCast.GetCollisionCount();
-
-			for (int i = 0; i < collisionCount; i++)
-			{
-				if (shapeCast.GetCollider(i) is RigidBody3D collider)
-				{
-					if (collider != null || collider.IsInGroup("Pickable") || collider is RigidBody3D)
-					{
-						collider.SetCollisionLayerValue(1, false);
-						collider.SetCollisionLayerValue(2, true);
-						_currentObject = collider;
-					}
-				}
-			}
+			_currentObject = ray.GetCollider() as RigidBody3D;
+			_currentObject.SetCollisionLayerValue(1, false);
+			_currentObject.SetCollisionLayerValue(2, false);
 		}
 	}
 
 	private void ThrowObject()
 	{
-		
+		Vector3 direction = aim.GlobalPosition - _currentObject.GlobalPosition;
+		float distance = _currentObject.GlobalPosition.DistanceTo(aim.GlobalPosition);
+		_currentObject.ApplyCentralImpulse(direction.Normalized() * (throwForce + (distance * 2.5f)));
+		_currentObject.SetCollisionLayerValue(1, true);
+		_currentObject.SetCollisionLayerValue(2, false);
+		_currentObject = null;
 	}
 
 	private void DropObject()
@@ -85,6 +90,13 @@ public partial class ObjectPicker : Node3D
 		{
 			Vector3 targetPosition = camera.GlobalPosition + (camera.GlobalBasis * new Vector3(1f, 1f, -1f));
 			Vector3 objectPos = _currentObject.GlobalPosition;
+			
+			if (_currentObject.GlobalPosition.DistanceTo(targetPosition) > pickDistance)
+			{
+				DropObject();
+				return;
+			}
+			
 			_currentObject.GlobalRotation = camera.GlobalRotation;
 			_currentObject.LinearVelocity = (targetPosition - objectPos) * pickForce;
 		}
