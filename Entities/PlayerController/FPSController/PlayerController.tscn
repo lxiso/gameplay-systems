@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://ts80eby12rey"]
 
 [ext_resource type="Script" uid="uid://djn2boi4lav4g" path="res://Entities/PlayerController/FPSController/PlayerController.cs" id="1_4paco"]
-[ext_resource type="PackedScene" uid="uid://ki8kditkdxl3" path="res://Entities/PlayerController/FPSController/PlayerComponents/ObjectPicker.tscn" id="2_cjuyx"]
 [ext_resource type="PackedScene" uid="uid://brnopw05khvy1" path="res://Entities/PlayerController/FPSController/PlayerComponents/DebugHud.tscn" id="3_8ykdt"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_mo5jy"]
@@ -14,8 +13,6 @@ height = 1.7
 [node name="PlayerController" type="CharacterBody3D" unique_id=385158448]
 collision_layer = 2
 script = ExtResource("1_4paco")
-
-[node name="ObjectPicker" parent="." unique_id=1298848287 instance=ExtResource("2_cjuyx")]
 
 [node name="CrouchCheck" type="ShapeCast3D" parent="." unique_id=614555317]
 shape = SubResource("SphereShape3D_mo5jy")
