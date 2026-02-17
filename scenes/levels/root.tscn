@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dcci21m50wcoc" path="res://Assets/Textures/PrototypeTextures by Kenney/Light/texture_08.png" id="2_otbxg"]
 [ext_resource type="PackedScene" uid="uid://ts80eby12rey" path="res://Entities/PlayerController/FPSController/PlayerController.tscn" id="3_8gpks"]
 [ext_resource type="PhysicsMaterial" uid="uid://6u5fel1qss8b" path="res://Entities/PhysicsMaterials/StandardBox.tres" id="4_8dxhx"]
-[ext_resource type="Script" uid="uid://cdghgqddwx55h" path="res://Entities/EnemyController/EnemyController.cs" id="5_otbxg"]
+[ext_resource type="PackedScene" uid="uid://dy26lsg3sftm3" path="res://Entities/EnemyController/EnemyController.tscn" id="5_otbxg"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_06k03"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -34,10 +34,6 @@ uv1_scale = Vector3(3.03, 3.03, 3.03)
 [sub_resource type="BoxMesh" id="BoxMesh_edpnl"]
 material = SubResource("StandardMaterial3D_h3mcq")
 size = Vector3(0.8, 0.8, 0.8)
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ihp5c"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_otbxg"]
 
 [node name="Root" type="Node3D" unique_id=1934402417]
 script = ExtResource("1_ihp5c")
@@ -140,12 +136,5 @@ shape = SubResource("BoxShape3D_h3mcq")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Box2" unique_id=2048870432]
 mesh = SubResource("BoxMesh_edpnl")
 
-[node name="EnemyController" type="CharacterBody3D" parent="." unique_id=2051422103]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7363834, 3.419323)
-script = ExtResource("5_otbxg")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="EnemyController" unique_id=1631172971]
-shape = SubResource("CapsuleShape3D_ihp5c")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="EnemyController" unique_id=1898926682]
-mesh = SubResource("CapsuleMesh_otbxg")
+[node name="EnemyController" parent="." unique_id=892258355 instance=ExtResource("5_otbxg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.104703, 1.288645, 3.419323)

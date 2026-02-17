@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://2fg11po8ajq2"]
+
+[ext_resource type="Script" uid="uid://c34s547nmov0x" path="res://Entities/PlayerController/FPSController/PlayerComponents/Kick.cs" id="1_n43jt"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sc57s"]
+size = Vector3(2, 2, 2)
+
+[node name="Kick" type="Node3D" unique_id=1833153778]
+script = ExtResource("1_n43jt")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1089168466]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1835504294]
+shape = SubResource("BoxShape3D_sc57s")

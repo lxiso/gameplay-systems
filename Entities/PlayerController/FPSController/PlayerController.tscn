@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://djn2boi4lav4g" path="res://Entities/PlayerController/FPSController/PlayerController.cs" id="1_4paco"]
 [ext_resource type="PackedScene" uid="uid://brnopw05khvy1" path="res://Entities/PlayerController/FPSController/PlayerComponents/DebugHud.tscn" id="3_8ykdt"]
+[ext_resource type="PackedScene" uid="uid://2fg11po8ajq2" path="res://Entities/PlayerController/FPSController/PlayerComponents/Kick.tscn" id="3_acyym"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_mo5jy"]
 radius = 0.35
@@ -27,3 +28,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 [node name="Camera3D" type="Camera3D" parent="Head" unique_id=1445620312]
 
 [node name="DebugHUD" parent="." unique_id=762388576 instance=ExtResource("3_8ykdt")]
+
+[node name="Kick" parent="." unique_id=1833153778 instance=ExtResource("3_acyym")]

@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dy26lsg3sftm3"]
+
+[ext_resource type="Script" uid="uid://cdghgqddwx55h" path="res://Entities/EnemyController/EnemyController.cs" id="1_75kll"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ihp5c"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_otbxg"]
+
+[node name="EnemyController" type="CharacterBody3D" unique_id=892258355]
+script = ExtResource("1_75kll")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1667872843]
+shape = SubResource("CapsuleShape3D_ihp5c")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1825119411]
+mesh = SubResource("CapsuleMesh_otbxg")
+
+[node name="StunTimer" type="Timer" parent="." unique_id=1104635101 groups=["Enemy"]]
+wait_time = 1.5
+one_shot = true
